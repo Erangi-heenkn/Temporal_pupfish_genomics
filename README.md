@@ -3,7 +3,7 @@ Pupfish-Temporal-Genomics
 This folder contains shell and R commands/scripts used to process and analyze whole-genome resequencing data in the manuscript,
 "Recent evidence of purging genetic load in small, isolated populations of conservation concern"
 
-processing/ - This folder contains the following scripts for the preprocessing of sequence reads
+**processing/** - This folder contains the following scripts for the preprocessing of sequence reads
 
 1. reference.format.sh - formatting the reference genome
 2. fastqc_clean.sh - Trim low-quality reads and assess the quality
@@ -14,7 +14,7 @@ processing/ - This folder contains the following scripts for the preprocessing o
    - downsample.stat.sh
 6. snp_calling.sh - GL estimation after initial processing of data
 
-Analyses/ - This folder contains scripts for analyses
+**Analyses/** - This folder contains scripts for analyses
 
 1. pca.sh - population structure by PCAngsd
 2. admixture.sh - population structure by NGSAdmix
