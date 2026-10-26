@@ -4,11 +4,11 @@ This folder contains shell and R commands/scripts used to process and analyze wh
 "Recent evidence of purging genetic load in small, isolated populations of conservation concern"
 
 processing/ - This folder contains the following scripts for the preprocessing of sequence reads
-1.reference.format.sh - formatting the reference genome
-2.fastqc_clean.sh - Trim low-quality reads and assess the quality
+1. reference.format.sh - formatting the reference genome
+2. fastqc_clean.sh - Trim low-quality reads and assess the quality
 3. mapping.sh - create mapping jobs for aligning filtered reads to the formatted reference genome
-4.submit_mapping_jobs.sh - submit the mapping jobs created using mapping.sh
-5.processing/down_sampling/ - after analyzing the mapping stats, reads were downsampled to 3x following the scripts in this folder
+4. submit_mapping_jobs.sh - submit the mapping jobs created using mapping.sh
+5. processing/down_sampling/ - after analyzing the mapping stats, reads were downsampled to 3x following the scripts in this folder
    - downsample.sh
    - downsample.stat.sh
 6. snp_calling.sh - GL estimation after initial processing of data
