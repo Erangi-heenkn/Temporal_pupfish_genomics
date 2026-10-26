@@ -1,4 +1,4 @@
-Pupfish-Temporal-Genomics
+## Pupfish-Temporal-Genomics
 
 This folder contains shell and R commands/scripts used to process and analyze whole-genome resequencing data in the manuscript,
 "Recent evidence of purging genetic load in small, isolated populations of conservation concern"
