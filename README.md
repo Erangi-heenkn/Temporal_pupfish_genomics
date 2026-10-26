@@ -27,7 +27,7 @@ This folder contains shell and R commands/scripts used to process and analyze wh
 9. roh.sh -ROH estimates
 10. NeEstimator.pre.sh - pre-processing data to create input files for NeEstimator
 11. Selection.sh - outlier SNP/windows identification
-12. StairwayPlot2.sh - added in the revision to analyze Ne changes
+12. StairwayPlot2.sh - added in the revision to analyze *Ne* changes
 13. Analyses/load/ - This folder contains the scripts used for genetic load analyses
 14. Analyses/R_scripts/ -contains scripts to generate figures
     - Main figures -This contains R scripts/codes for the figures in the main manuscript
