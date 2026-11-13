@@ -1,0 +1,988 @@
+#This page contains R scripts/codes used to generate the figures in the Supplementary information section (ESM)
+
+
+---------------FIGURE S1------------------------------------------------------
+
+setwd("~/projects/Pupfish_temporal/Summary_stats")
+library(ggplot2) # R version 4.6.1 and ggplot2_4.0.3
+library(readxl) # readxl_1.5.0
+
+depth_breadth <- read_excel("sum_stats.xlsx")
+depth_breadth$POP <- factor(depth_breadth$POP, levels = c("LR2001","SC2001", "MO2001", "MS2001","LR2018","SC2017","MS2019"))
+
+#####breadth after filtering########
+# Plot for Breadth with custom colors
+png(file="Figure1.png",width = 5200, height = 1800,res=600)
+ggplot(data = depth_breadth, aes(x = reorder(sample_ID, breadth), y = breadth, fill = POP)) +
+  geom_bar(stat = "identity") +
+  theme_classic() +
+  scale_fill_manual("Population", values = c("LR2001" = "darkgray", "LR2018" = "black", "MS2001" = "cadetblue3",
+                                             "MS2019" = "blue", "MO2001" = "coral2", "SC2001" = "lightgreen", "SC2017" = "darkgreen")) +
+  xlab("Sample") +
+  ylab("1x Breadth") +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.05)), limits = c(0, 100)) +  # Adjust the expand parameter and limits
+  theme(axis.ticks.x = element_blank(),
+        axis.text.x = element_blank())  # Remove x-axis labels and title
+
+dev.off() 
+
+#####depth after filtering########
+# Plot for Breadth with custom colors
+png(file="depth.png",width = 5200, height = 1800,res=600)
+ggplot(data = depth_breadth, aes(x = reorder(sample_ID, depth), y = depth, fill = POP)) +
+  geom_bar(stat = "identity") +
+  theme_classic() +
+  scale_fill_manual("Population", values = c("LR2001" = "darkgray", "LR2018" = "black", "MS2001" = "cadetblue3",
+                                             "MS2019" = "blue", "MO2001" = "coral2", "SC2001" = "lightgreen", "SC2017" = "darkgreen")) +
+  xlab("Sample") +
+  ylab("Depth") +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.05)), limits = c(0, 10)) +  # Adjust the expand parameter and limits
+  theme(axis.ticks.x = element_blank(),
+        axis.text.x = element_blank())  # Remove x-axis labels and title
+
+dev.off() 
+
+
+#####breadth after filtering########
+# Plot for Breadth with custom colors
+png(file="initial_mapping.png",width = 5200, height = 1800,res=600)
+ggplot(data = depth_breadth, aes(x = reorder(sample_ID, Initial_mapped), y = Initial_mapped, fill = POP)) +
+  geom_bar(stat = "identity") +
+  theme_classic() +
+  scale_fill_manual("Population", values = c("LR2001" = "darkgray", "LR2018" = "black", "MS2001" = "cadetblue3",
+                                             "MS2019" = "blue", "MO2001" = "coral2", "SC2001" = "lightgreen", "SC2017" = "darkgreen")) +
+  xlab("Sample") +
+  ylab("Mapped percentage") +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.05)), limits = c(0, 100)) +  # Adjust the expand parameter and limits
+  theme(axis.ticks.x = element_blank(),
+        axis.text.x = element_blank())  # Remove x-axis labels and title
+
+dev.off() 
+
+
+---------------FIGURE S2------------------------------------------------------
+setwd("~/projects/Pupfish_temporal/Summary_stats")
+library(ggplot2) # R version 4.6.1 and ggplot2_4.0.3
+
+
+########after downsampled
+depth_breadth <- read.csv("down_stat.csv")
+depth_breadth$POP <- factor(depth_breadth$POP, levels = c("LR2001","SC2001", "MO2001", "MS2001","LR2018","SC2017","MS2019"))
+
+png(file="downsampled_depth.png",width = 5200, height = 1800,res=600)
+ggplot(data = depth_breadth, aes(x = reorder(sample.ID, after_depth), y = after_depth, fill = POP)) +
+  geom_bar(stat = "identity") +
+  theme_classic() +
+  scale_fill_manual("Population", values = c("LR2001" = "darkgray", "LR2018" = "black", "MS2001" = "cadetblue3",
+                                             "MS2019" = "blue", "MO2001" = "coral2", "SC2001" = "lightgreen", "SC2017" = "darkgreen")) +
+  xlab("Sample") +
+  ylab("Downsampled_depth") +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.05)), limits = c(0, 4)) +  # Adjust the expand parameter and limits
+  theme(axis.ticks.x = element_blank(),
+        axis.text.x = element_blank())  # Remove x-axis labels and title
+dev.off() 
+
+
+png(file="downsampled_breadth.png",width = 5200, height = 1800,res=600)
+ggplot(data = depth_breadth, aes(x = reorder(sample.ID, after_bredth), y = after_bredth
+, fill = POP)) +
+  geom_bar(stat = "identity") +
+  theme_classic() +
+  scale_fill_manual("Population", values = c("LR2001" = "darkgray", "LR2018" = "black", "MS2001" = "cadetblue3",
+                                             "MS2019" = "blue", "MO2001" = "coral2", "SC2001" = "lightgreen", "SC2017" = "darkgreen")) +
+  xlab("Sample") +
+  ylab("Downsampled_breadth") +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.05)), limits = c(0, 100)) +  # Adjust the expand parameter and limits
+  theme(axis.ticks.x = element_blank(),
+        axis.text.x = element_blank())  # Remove x-axis labels and title
+dev.off() 
+
+
+---------------FIGURE S3------------------------------------------------------
+setwd("~/projects/Pupfish_temporal/SI_figures")
+library(ggplot2) # R version 4.6.1 and ggplot2_4.0.3
+
+
+
+##OTU1.MS#############
+png(file="PCA_MS.png",width = 3550, height = 2800,res=600)
+
+popmap <- read.table("populations.MS.txt", header=FALSE)
+names(popmap)<-c("sample","population")
+head(popmap)
+
+#Read in covariation matrix and metadata
+cov<-as.matrix(read.table("OTU1.FINAL.cov"))
+
+#Extract eigenvalues
+axes<-eigen(cov)
+#print out eigenvalues for PCA axes
+axes$values/sum(axes$values)*100
+#[1] 4.4543157 2.4993921
+
+#Save as dataframe and plot
+PC1_3<-as.data.frame(axes$vectors[,1:3])
+title<-"Population"
+
+ggplot(data=PC1_3, aes(y=V2, x=V1, color=as.factor(popmap$population)))+geom_point(size=3,shape=16)+ 
+theme_classic() + xlab("PC1 (4.5%)") +ylab("PC2 (2.3%)")+
+scale_color_manual(name="", values =c("LR2001"="darkgray","LR2018"="black","MS2001"="cadetblue3","MS2019"="blue","MO2001"="coral2","SC2001"="lightgreen","SC2017"="darkgreen"))+
+geom_hline(yintercept=0,linetype="dashed")+geom_vline(xintercept =0,linetype="dashed")
+ggsave("PCA_MS.svg")
+dev.off()  
+
+##OTU2.SC#############
+png(file="PCA_SC.png",width = 3550, height = 2800,res=600)
+
+popmap <- read.table("populations.SC.txt", header=FALSE)
+names(popmap)<-c("sample","population")
+head(popmap)
+
+#Read in covariation matrix and metadata
+cov<-as.matrix(read.table("OTU1.FINAL.cov"))
+
+#Extract eigenvalues
+axes<-eigen(cov)
+#print out eigenvalues for PCA axes
+axes$values/sum(axes$values)*100
+#[1]5.7161410 3.8084618
+
+#Save as dataframe and plot
+PC1_3<-as.data.frame(axes$vectors[,1:3])
+title<-"Population"
+
+ggplot(data=PC1_3, aes(y=V2, x=V1, color=as.factor(popmap$population)))+geom_point(size=3,shape=16)+ 
+theme_classic() + xlab("PC1 (5.7%)") +ylab("PC2 (3.2%)")+
+scale_color_manual(name="", values =c("LR2001"="darkgray","LR2018"="black","MS2001"="cadetblue3","MS2019"="blue","MO2001"="coral2","SC2001"="lightgreen","SC2017"="darkgreen"))+
+geom_hline(yintercept=0,linetype="dashed")+geom_vline(xintercept =0,linetype="dashed")
+ggsave("PCA_SC.svg")
+dev.off()  
+
+
+---------------FIGURE S4------------------------------------------------------
+
+setwd("~/ADMIX")
+library(ggplot2) # R version 4.6.1 and ggplot2_4.0.3
+
+
+
+#k=2
+admix2<- t(as.matrix(read.table("pup_k2.qopt_R3.qopt")))
+head(admix2[, 1:10])
+barplot(admix2, col = c("blue","darkgreen"), space = 0,border =TRUE ,
+        ylab = "K=2")
+populations <- c(rep("LR2018", 15),rep("LR2001", 50), rep("MO2001", 20),rep("MS2019", 15),rep("MS2001", 49),rep("SC17/01", 65))
+text(c(7,40,76,93,125,180), -0.05, unique(populations),
+     xpd = T)
+abline(v = c(15,65,85,100,149), lty = 5, lwd = 0.5, col = "white")
+
+#k=3
+admix2<- t(as.matrix(read.table("pup_k3.qopt_R4.qopt")))
+head(admix2[, 1:10])
+barplot(admix2, col = c("darkgreen","black","blue"), space = 0,border =TRUE ,
+        ylab = "K=3")
+populations <- c(rep("LR2018", 15),rep("LR2001", 50), rep("MO2001", 20),rep("MS2019", 15),rep("MS2001", 49),rep("SC17/01", 65))
+text(c(7,40,76,93,125,180), -0.05, unique(populations),
+     xpd = T)
+abline(v = c(15,65,85,100,149), lty = 5, lwd = 0.5, col = "white")
+
+#k=4
+admix2<- t(as.matrix(read.table("pup_k4.qopt_R5.qopt")))
+head(admix2[, 1:10])
+barplot(admix2, col = c("darkgreen","blue","black","lightgreen"), space = 0,border =TRUE ,
+        ylab = "K=4")
+populations <- c(rep("LR2018", 15),rep("LR2001", 50), rep("MO2001", 20),rep("MS2019", 15),rep("MS2001", 49),rep("SC17/01", 65))
+text(c(7,40,76,93,125,180), -0.05, unique(populations),
+     xpd = T)
+abline(v = c(15,65,85,100,149), lty = 5, lwd = 0.5, col = "white")
+
+
+#k=5
+admix2<- t(as.matrix(read.table("pup_k5.qopt_R7.qopt")))
+head(admix2[, 1:10])
+barplot(admix2, col = c("darkgreen","blue","black", "cadetblue3","lightgreen"), space = 0,border =TRUE ,
+        ylab = "K=5")
+populations <- c(rep("LR2018", 15),rep("LR2001", 50), rep("MO2001", 20),rep("MS2019", 15),rep("MS2001", 49),rep("SC17/01", 65))
+text(c(7,40,76,93,125,180), -0.05, unique(populations),
+     xpd = T)
+abline(v = c(15,65,85,100,149), lty = 5, lwd = 0.5, col = "white")
+
+
+#k=6
+admix2<- t(as.matrix(read.table("pup_k6.qopt_R5.qopt")))
+head(admix2[, 1:10])
+barplot(admix2, col = c("darkgreen","blue","cadetblue3","black", "lightgreen","darkgray"), space = 0,border =TRUE ,
+        ylab = "K=6")
+populations <- c(rep("LR2018", 15),rep("LR2001", 50), rep("MO2001", 20),rep("MS2019", 15),rep("MS2001", 49),rep("SC17/01", 65))
+text(c(7,40,76,93,125,180), -0.05, unique(populations),
+     xpd = T)
+abline(v = c(15,65,85,100,149), lty = 5, lwd = 0.5, col = "white")
+
+
+
+par(mfrow = c(6, 1), mar = c(2, 4, 1, 1))  # Adjust margins for better spacing
+
+# Define populations
+populations <- c(rep("LR2018", 15), rep("LR2001", 50), rep("MO2001", 20), 
+                 rep("MS2019", 15), rep("MS2001", 49), rep("SC17/01", 65))
+pop_labels <- unique(populations)
+pop_positions <- c(7, 40, 76, 93, 125, 180)
+abline_positions <- c(15, 65, 85, 100, 149)
+
+# Define file names and colors for each K
+k_values <- 2:6
+files <- c("pup_k2.qopt_R3.qopt", "pup_k3.qopt_R4.qopt", "pup_k4.qopt_R5.qopt", 
+           "pup_k5.qopt_R7.qopt", "pup_k6.qopt_R5.qopt")
+colors_list <- list(
+  c("blue", "darkgreen"),
+  c("darkgreen", "black", "blue"),
+  c("darkgreen", "blue", "black", "lightgreen"),
+  c("darkgreen", "blue", "black", "cadetblue3", "lightgreen"),
+  c("darkgreen", "blue", "cadetblue3", "black", "lightgreen", "darkgray")
+)
+
+# Loop through each K value
+for (i in seq_along(k_values)) {
+  admix2 <- t(as.matrix(read.table(files[i])))
+  
+  barplot(admix2, col = colors_list[[i]], space = 0, border = TRUE,
+          ylab = paste0("K=", k_values[i]), xaxt = "n")  # Remove x-axis labels
+  
+  text(pop_positions, -0.1, pop_labels, xpd = TRUE)
+  abline(v = abline_positions, lty = 5, lwd = 0.5, col = "white")
+}
+
+
+---------------FIGURE S7------------------------------------------------------
+
+setwd("~/roh")
+library(ggplot2) # R version 4.6.1 and ggplot2_4.0.3
+
+png(file="Froh.total.png",width = 3550, height = 2800,res=600)
+roh_pupfish <-read.csv("roh.all.csv")
+
+View(roh_pupfish)
+roh_pupfish$pop <- factor(roh_pupfish$pop , levels=c("MO2001","LR2001","LR2018","SC2001","SC2017","MS2001","MS2019"))
+
+png(file="Froh.>1Mb.png",width = 3550, height = 2800,res=600)
+
+ggplot(roh_pupfish, aes(x = pop, y = F1, fill = pop)) +
+  geom_boxplot(show.legend = FALSE) +
+  scale_fill_manual(name = "pop", values = c("LR2001" = "darkgray", "LR2018" = "black", "MS2001" = "cadetblue3", "MS2019" = "blue", "MO2001" = "coral2", "SC2001" = "lightgreen", "SC2017" = "darkgreen")) +
+  xlab("") +
+  ylab("Individual fROH(>1Mb)") +
+  theme_classic() +
+  theme(
+    axis.text.x = element_text(size = 10),  # Adjust x-axis label size
+    axis.title.y = element_text(size = 12)  # Adjust y-axis title size
+  )
+
+
+ggplot(roh_pupfish, aes(x = pop, y = F100, fill = pop)) +
+  geom_boxplot(show.legend = FALSE) +
+  scale_fill_manual(name = "pop", values = c("LR2001" = "darkgray", "LR2018" = "black", "MS2001" = "cadetblue3", "MS2019" = "blue", "MO2001" = "coral2", "SC2001" = "lightgreen", "SC2017" = "darkgreen")) +
+  xlab("") +
+  ylab("Individual fROH (100kb-1Mb)") +
+  theme_classic() +
+  theme(
+    axis.text.x = element_text(size = 10),  # Adjust x-axis label size
+    axis.title.y = element_text(size = 12)  # Adjust y-axis title size
+  )
+
+
+---------------FIGURE S8------------------------------------------------------
+# The effective population size (Ne) trajectories inferred using Stairway Plot2 v2.0b
+# R 4.4.1
+
+setwd("~/stairway.plots")
+
+LR2001 <- read.table("LR2001.final.summary",header=T)
+LR2018 <- read.table("LR2018.final.summary",header=T)
+MS2001 <- read.table("MS2001.final.summary",header=T)
+MO2001 <- read.table("MO2001.final.summary",header=T)
+SC2001 <- read.table("SC2001.final.summary",header=T)
+SC2017 <- read.table("SC2017.final.summary",header=T)
+MS2019 <- read.table("MS2019.final.summary",header=T)
+
+plot(LR2001$year,LR2001$Ne_median, log=c("xy"), type="n", xlab="Time (years ago)", ylab="Effective Population Size (individuals)",xlim=c(1,1000),ylim=c(1,150000))
+lines(LR2001$year,LR2001$Ne_median,type="s",col="darkgray",lwd = 1.2)
+
+lines(LR2018$year,LR2018$Ne_median,type="s",col="black",lwd = 1.2)
+lines(MS2001$year,MS2001$Ne_median,type="s",col="steelblue3",lwd = 1.2)
+lines(MS2019$year,MS2019$Ne_median,type="s",col="blue",lwd = 1.2)
+
+lines(MO2001$year,MO2001$Ne_median,type="s",col="coral2",lwd = 1.2)
+
+lines(SC2001$year,SC2001$Ne_median,type="s",col="green",lwd = 1.2)
+
+lines(SC2017$year,SC2017$Ne_median,type="s",col="darkgreen",lwd = 1.2)
+
+legend(6440,199480,legend = c("LR2001","MS2001","SC2001","MO2001"),col=c("darkgray","cyan1","lightgreen", "coral2"),lty=c(1,1,1,1,2),lwd=c(2,2,2,2,2),cex=0.8)
+
+
+
+---------------FIGURE S9------------------------------------------------------
+
+# compare per-individual VEP load across imputed genotypes, DS, and GP
+
+# R 4.4.1, data.table 1.18.2.1, ggplot2 3.5.2
+library(data.table)
+library(ggplot2)
+
+# set pupfish project directory
+pupfish_dir <- ""
+
+WORKDIR    <- file.path(pupfish_dir, "load_files.NA")
+VEP_DIR    <- file.path(pupfish_dir, "VEP_results")
+BURDEN_DIR <- file.path(VEP_DIR, "burden_compare")
+POP_FILE   <- file.path(WORKDIR, "pop.txt")
+OUTDIR     <- file.path(VEP_DIR, "burden_compare", "summary")
+dir.create(OUTDIR, showWarnings = FALSE, recursive = TRUE)
+
+METRICS <- c("imputed", "DS", "GP")
+IMPACTS <- c("HIGH", "MODERATE", "LOW", "MODIFIER")
+
+metric_labs <- c(imputed = "Imputed (hard call)",
+                 DS       = "Dosage (DS)",
+                 GP       = "Raw posterior (GP)")
+metric_cols <- c("Imputed (hard call)" = "#1a9641",
+                 "Dosage (DS)"         = "#2166ac",
+                 "Raw posterior (GP)"  = "#d6604d")
+
+# population assignments
+pops <- fread(POP_FILE, header = TRUE)
+setnames(pops, 1:2, c("SAMPLE", "POP"))
+
+# read per-sample burden files
+load_one <- function(metric, impact) {
+    f <- file.path(BURDEN_DIR, metric,
+                   sprintf("%s_burden_per_sample.tsv", tolower(impact)))
+    if (!file.exists(f)) { message("missing: ", f); return(NULL) }
+    dt <- fread(f)
+    if (nrow(dt) == 0) return(NULL)
+    dt[, IMPACT := impact]
+    dt[, metric := metric]
+    dt
+}
+burden <- rbindlist(lapply(METRICS, function(m)
+    rbindlist(lapply(IMPACTS, function(i) load_one(m, i)))))
+if (nrow(burden) == 0) stop("No burden files found under ", BURDEN_DIR)
+
+burden <- merge(burden, pops, by = "SAMPLE")
+
+# burden rate per called site
+burden[, rate := alt_alleles / called_sites]
+burden[, IMPACT := factor(IMPACT, levels = IMPACTS)]
+burden[, metric := factor(metric, levels = METRICS, labels = metric_labs[METRICS])]
+
+# site coverage per metric and impact
+coverage <- burden[, .(median_called_sites = as.numeric(median(called_sites)),
+                       min_called = min(called_sites),
+                       max_called = max(called_sites),
+                       n_individuals = .N),
+                   by = .(metric, IMPACT)]
+setorder(coverage, IMPACT, metric)
+fwrite(coverage, file.path(OUTDIR, "vep_load_site_coverage.csv"))
+
+# population summaries per metric
+pop_sum <- burden[, .(
+    mean_count = mean(alt_alleles),
+    se_count   = sd(alt_alleles) / sqrt(.N),
+    mean_rate  = mean(rate),
+    se_rate    = sd(rate) / sqrt(.N),
+    n_ind      = .N
+), by = .(POP, IMPACT, metric)]
+setorder(pop_sum, IMPACT, POP, metric)
+fwrite(pop_sum, file.path(OUTDIR, "vep_load_by_population_metric.csv"))
+
+# load per population by metric
+p_bar <- ggplot(pop_sum, aes(POP, mean_rate, fill = metric)) +
+    geom_col(position = position_dodge(0.8), width = 0.75) +
+    geom_errorbar(aes(ymin = mean_rate - se_rate, ymax = mean_rate + se_rate),
+                  width = 0.2, position = position_dodge(0.8), linewidth = 0.35) +
+    facet_wrap(~IMPACT, scales = "free_y", nrow = 1) +
+    scale_fill_manual(values = metric_cols, name = "Metric") +
+    labs(title    = "VEP load per population, by genotype metric",
+         subtitle = "Mean derived/ALT alleles per called site (+/- SE)",
+         x = "Population", y = "Burden rate (alleles / called site)") +
+    theme_bw(base_size = 12) +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1),
+          strip.background = element_rect(fill = "grey92"),
+          legend.position = "bottom")
+ggsave(file.path(OUTDIR, "vep_load_by_population_metric.pdf"), p_bar,
+       width = 14, height = 4.5)
+
+# per-individual concordance between metrics
+ind_wide <- dcast(burden, SAMPLE + POP + IMPACT ~ metric, value.var = "rate")
+mnames <- metric_labs[METRICS]
+pairs  <- combn(mnames, 2, simplify = FALSE)
+
+conc <- rbindlist(lapply(pairs, function(p) {
+    d <- ind_wide[is.finite(get(p[1])) & is.finite(get(p[2])),
+                  .(SAMPLE, POP, IMPACT, x = get(p[1]), y = get(p[2]))]
+    if (!nrow(d)) return(NULL)
+    d[, comparison := paste(p[1], "vs", p[2])]
+    d
+}))
+
+p_conc <- ggplot(conc, aes(x, y, colour = IMPACT)) +
+    geom_abline(slope = 1, intercept = 0, linetype = "dashed", colour = "grey50") +
+    geom_point(size = 1.4, alpha = 0.7) +
+    facet_grid(IMPACT ~ comparison, scales = "free") +
+    scale_colour_brewer(palette = "Set1", name = "Impact", guide = "none") +
+    labs(title    = "Per-individual VEP burden concordance across metrics",
+         subtitle = "Each point = one individual. On the dashed line = metrics agree.",
+         x = "Burden rate (metric A)", y = "Burden rate (metric B)") +
+    theme_bw(base_size = 11) +
+    theme(strip.background = element_rect(fill = "grey92"))
+ggsave(file.path(OUTDIR, "vep_burden_concordance.pdf"), p_conc,
+       width = 10, height = 9)
+
+# concordance summary per metric pair
+conc_summary <- conc[, .(
+    n            = .N,
+    pearson_r    = if (.N > 2 && sd(x) > 0 && sd(y) > 0) cor(x, y) else NA_real_,
+    spearman_rho = if (.N > 2) suppressWarnings(cor(x, y, method = "spearman")) else NA_real_,
+    mean_absdiff = mean(abs(x - y))
+), by = .(comparison, IMPACT)]
+setorder(conc_summary, IMPACT, comparison)
+fwrite(conc_summary, file.path(OUTDIR, "vep_burden_concordance_summary.csv"))
+
+# population ranking across metrics
+rank_dt <- pop_sum[, .(POP, IMPACT, metric, mean_rate)]
+ord <- pop_sum[metric == metric_labs["imputed"],
+               .(o = mean(mean_rate)), by = POP][order(o), POP]
+rank_dt[, POP := factor(POP, levels = ord)]
+
+p_rank <- ggplot(rank_dt, aes(POP, mean_rate, colour = metric, group = metric)) +
+    geom_line(linewidth = 0.6) +
+    geom_point(size = 2) +
+    facet_wrap(~IMPACT, scales = "free_y", nrow = 1) +
+    scale_colour_manual(values = metric_cols, name = "Metric") +
+    labs(title    = "Population load ranking consistency across metrics",
+         subtitle = "Populations ordered by the imputed ranking",
+         x = "Population", y = "Mean burden rate") +
+    theme_bw(base_size = 12) +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1),
+          strip.background = element_rect(fill = "grey92"),
+          legend.position = "bottom")
+ggsave(file.path(OUTDIR, "vep_population_rank_consistency.pdf"), p_rank,
+       width = 14, height = 4.5)
+
+
+
+---------------FIGURE S10------------------------------------------------------
+
+# compare Rxy across imputed genotypes, DS, and GP
+
+# R 4.4.1, data.table 1.18.2.1, ggplot2 3.5.2
+library(data.table)
+library(ggplot2)
+
+# set pupfish project directory
+pupfish_dir <- ""
+
+WORKDIR  <- file.path(pupfish_dir, "load_files.NA")
+VEP_DIR  <- file.path(pupfish_dir, "VEP_results")
+SHARED   <- file.path(WORKDIR, "rxy_results")
+OUTDIR   <- file.path(WORKDIR, "rxy_compare")
+dir.create(OUTDIR, showWarnings = FALSE, recursive = TRUE)
+
+# frequency directories per metric
+FRQ_DIRS <- list(
+    imputed = SHARED,
+    DS      = file.path(WORKDIR, "rxy_results_DS"),
+    GP      = file.path(WORKDIR, "rxy_results_GP")
+)
+
+CSQ_FILE <- file.path(VEP_DIR, "vep_consequence_per_variant.tsv")
+
+# filtering settings
+MIN_NCHR        <- 10
+MIN_SITES       <- 20
+RESTRICT_COMMON <- TRUE
+
+# polarise snps with outgroup bases
+vcfpos <- fread(file.path(SHARED, "pupfish_snps.bed"),
+                col.names = c("CHROM", "START", "POS", "REF", "ALT"))
+n_snps <- nrow(vcfpos)
+
+anc <- fread(file.path(SHARED, "outgroup_bases.txt"),
+             col.names = c("coord", "ANC"))
+anc[, CHROM := sub(":.*", "", coord)]
+anc[, POS   := as.integer(sub(".*-", "", coord))]
+anc[, coord := NULL]
+anc[, ANC   := toupper(ANC)]
+anc <- anc[ANC %in% c("A", "C", "G", "T")]
+
+vcfpos <- merge(vcfpos, anc, by = c("CHROM", "POS"))
+vcfpos[, DERIVED := fcase(REF == ANC, ALT,
+                          ALT == ANC, REF,
+                          default = NA_character_)]
+vcfpos <- vcfpos[!is.na(DERIVED)]
+cat(sprintf("Polarised SNPs: %d / %d (%.1f%%)\n",
+            nrow(vcfpos), n_snps, 100 * nrow(vcfpos) / n_snps))
+
+# shared site classes from VEP
+csq <- fread(CSQ_FILE,
+             col.names = c("CHROM", "POS", "REF", "ALT",
+                           "Consequence", "IMPACT", "SYMBOL"))
+
+lof_key <- csq[IMPACT == "HIGH", paste(CHROM, POS)]
+mis_key <- csq[IMPACT == "MODERATE" & grepl("missense_variant", Consequence),
+               paste(CHROM, POS)]
+syn_key <- csq[Consequence == "synonymous_variant", paste(CHROM, POS)]
+
+# remove synonymous sites that are also LoF/missense in another transcript
+syn_key <- setdiff(syn_key, union(lof_key, mis_key))
+
+cat(sprintf("Site classes -- LoF: %d  missense_del: %d  synonymous: %d\n",
+            length(lof_key), length(mis_key), length(syn_key)))
+
+# read per-population frequencies into a table
+read_frq <- function(f) {
+    pop <- sub("\\.frq$", "", basename(f))
+    dt  <- fread(f, skip = 1,
+                 col.names = c("CHROM", "POS", "N_ALLELES",
+                               "N_CHR", "REF_FREQ", "ALT_FREQ"))
+    dt[, POP := pop]
+    dt
+}
+
+build_freq <- function(frq_dir, metric) {
+    files <- list.files(frq_dir, pattern = "\\.frq$", full.names = TRUE)
+    if (length(files) == 0) stop("No .frq files in ", frq_dir)
+    fa <- rbindlist(lapply(files, read_frq))
+    fa <- fa[N_CHR >= MIN_NCHR]
+    fa <- merge(fa, vcfpos[, .(CHROM, POS, REF, ALT, DERIVED)],
+                by = c("CHROM", "POS"))
+
+    fa[, DAF := ifelse(DERIVED == ALT, ALT_FREQ, 1 - ALT_FREQ)]
+    fa[, key := paste(CHROM, POS)]
+    fa[, site_class := fcase(key %in% lof_key, "LoF",
+                             key %in% mis_key, "missense_del",
+                             key %in% syn_key, "synonymous",
+                             default = NA_character_)]
+    fa <- fa[!is.na(site_class)]
+    fa[, metric := metric]
+    fa[]
+}
+
+freqs <- Map(build_freq, FRQ_DIRS, names(FRQ_DIRS))
+
+# optionally restrict to sites shared by all metrics
+if (RESTRICT_COMMON) {
+    common <- Reduce(intersect, lapply(freqs, function(d) unique(d$key)))
+    cat(sprintf("Sites shared by all metrics: %d\n", length(common)))
+    freqs <- lapply(freqs, function(d) d[key %in% common])
+}
+for (m in names(freqs)) {
+    f <- freqs[[m]]
+    cat(sprintf("  %-8s sites -- LoF: %d  missense_del: %d  synonymous: %d\n",
+                m,
+                f[site_class == "LoF",          uniqueN(key)],
+                f[site_class == "missense_del", uniqueN(key)],
+                f[site_class == "synonymous",   uniqueN(key)]))
+}
+
+# Rxy from derived allele frequencies
+calcL <- function(x, y) {
+    den <- sum(y * (1 - x), na.rm = TRUE)
+    if (den == 0) return(NA_real_)
+    sum(x * (1 - y), na.rm = TRUE) / den
+}
+
+calc_Rxy <- function(pop_x, pop_y, freq_dt, del_classes, min_sites = MIN_SITES) {
+    shared <- function(classes) {
+        dx <- freq_dt[POP == pop_x & site_class %in% classes, .(CHROM, POS, DAF)]
+        dy <- freq_dt[POP == pop_y & site_class %in% classes, .(CHROM, POS, DAF)]
+        merge(dx, dy, by = c("CHROM", "POS"), suffixes = c("_x", "_y"))
+    }
+    del <- shared(del_classes); syn <- shared("synonymous")
+    if (nrow(del) < min_sites || nrow(syn) < min_sites) return(NA_real_)
+    calcL(del$DAF_x, del$DAF_y) / calcL(syn$DAF_x, syn$DAF_y)
+}
+
+# chromosome jackknife for Rxy
+calc_Rxy_jack <- function(pop_x, pop_y, freq_dt, del_classes, min_sites = MIN_SITES) {
+    theta <- calc_Rxy(pop_x, pop_y, freq_dt, del_classes, min_sites)
+    shared <- function(classes) {
+        dx <- freq_dt[POP == pop_x & site_class %in% classes, .(CHROM, POS, DAF)]
+        dy <- freq_dt[POP == pop_y & site_class %in% classes, .(CHROM, POS, DAF)]
+        merge(dx, dy, by = c("CHROM", "POS"), suffixes = c("_x", "_y"))
+    }
+    del <- shared(del_classes); syn <- shared("synonymous")
+    empty <- data.table(rxy = NA_real_, se = NA_real_, ci_lo = NA_real_,
+                        ci_hi = NA_real_, n_del = nrow(del), n_syn = nrow(syn))
+    if (is.na(theta)) return(empty)
+
+    chroms    <- unique(freq_dt$CHROM)
+    jack_vals <- vapply(chroms, function(chr)
+        calc_Rxy(pop_x, pop_y, freq_dt[CHROM != chr], del_classes, min_sites = 5),
+        numeric(1))
+    valid <- !is.na(jack_vals)
+    if (sum(valid) < 3)
+        return(data.table(rxy = theta, se = NA_real_, ci_lo = NA_real_,
+                          ci_hi = NA_real_, n_del = nrow(del), n_syn = nrow(syn)))
+    n_v    <- sum(valid)
+    pseudo <- n_v * theta - (n_v - 1) * jack_vals[valid]
+    jk_se  <- sqrt(var(pseudo) / n_v)
+    data.table(rxy = theta, se = jk_se,
+               ci_lo = theta - 1.96 * jk_se, ci_hi = theta + 1.96 * jk_se,
+               n_del = nrow(del), n_syn = nrow(syn))
+}
+
+# pairwise Rxy for all population pairs
+run_pairwise <- function(freq_dt, del_classes, class_label, metric) {
+    pops <- sort(unique(freq_dt$POP))
+    rbindlist(lapply(pops, function(px)
+        rbindlist(lapply(pops, function(py) {
+            r        <- calc_Rxy_jack(px, py, freq_dt, del_classes)
+            r$pop_x  <- px; r$pop_y <- py
+            r$class  <- class_label; r$metric <- metric
+            r
+        }))))
+}
+
+# run all metrics and site classes
+class_defs <- list("LoF_only"     = "LoF",
+                   "missense_del" = "missense_del",
+                   "LoF+missense" = c("LoF", "missense_del"))
+
+all_results <- rbindlist(lapply(names(freqs), function(m) {
+    fd <- freqs[[m]]
+    rbindlist(lapply(names(class_defs), function(cl)
+        run_pairwise(fd, class_defs[[cl]], cl, m)))
+}))
+setcolorder(all_results,
+            c("metric", "class", "pop_x", "pop_y",
+              "rxy", "se", "ci_lo", "ci_hi", "n_del", "n_syn"))
+fwrite(all_results, file.path(OUTDIR, "rxy_compare_pairwise.csv"))
+
+# labels and colors
+all_results[, metric := factor(metric, levels = c("imputed", "DS", "GP"),
+                               labels = c("Imputed (hard call)",
+                                          "Dosage (DS)",
+                                          "Raw posterior (GP)"))]
+all_results[, class := factor(class,
+                              levels = c("LoF_only", "missense_del", "LoF+missense"),
+                              labels = c("LoF (HIGH)", "Missense (MODERATE)", "Combined"))]
+
+metric_cols <- c("Imputed (hard call)" = "#1a9641",
+                 "Dosage (DS)"         = "#2166ac",
+                 "Raw posterior (GP)"  = "#d6604d")
+
+# Rxy concordance between metrics
+off  <- all_results[pop_x != pop_y & is.finite(rxy)]
+wide <- dcast(off, pop_x + pop_y + class ~ metric, value.var = "rxy")
+mnames <- levels(all_results$metric)
+pairs  <- combn(mnames, 2, simplify = FALSE)
+
+conc <- rbindlist(lapply(pairs, function(p) {
+    d <- wide[is.finite(get(p[1])) & is.finite(get(p[2])),
+              .(pop_x, pop_y, class, x = get(p[1]), y = get(p[2]))]
+    if (!nrow(d)) return(NULL)
+    d[, comparison := paste(p[1], "vs", p[2])]
+    d
+}))
+
+rng <- range(c(conc$x, conc$y), na.rm = TRUE)
+p_conc <- ggplot(conc, aes(x, y, colour = class)) +
+    geom_abline(slope = 1, intercept = 0, linetype = "dashed", colour = "grey50") +
+    geom_point(size = 1.8, alpha = 0.8) +
+    facet_wrap(~comparison) +
+    coord_equal(xlim = rng, ylim = rng) +
+    scale_colour_brewer(palette = "Dark2", name = "Site class") +
+    labs(title    = "Rxy concordance across genotype metrics",
+         subtitle = "Each point = one population pair. On the dashed line = metrics agree.",
+         x = "Rxy (metric A)", y = "Rxy (metric B)") +
+    theme_bw(base_size = 12) +
+    theme(legend.position = "bottom")
+ggsave(file.path(OUTDIR, "rxy_concordance_scatter.pdf"), p_conc,
+       width = 11, height = 4.5)
+
+# pairwise Rxy with jackknife CIs by metric
+forest <- all_results[pop_x != pop_y & class == "Combined"]
+p_forest <- ggplot(forest,
+                   aes(rxy, pop_y, xmin = ci_lo, xmax = ci_hi,
+                       colour = metric)) +
+    geom_vline(xintercept = 1, linetype = "dashed", colour = "grey50") +
+    geom_errorbarh(height = 0.25, position = position_dodge(0.6),
+                   na.rm = TRUE, linewidth = 0.5) +
+    geom_point(size = 2, position = position_dodge(0.6)) +
+    facet_wrap(~pop_x, labeller = labeller(pop_x = function(x) paste("X =", x))) +
+    scale_colour_manual(values = metric_cols, name = "Metric") +
+    labs(title    = "Pairwise Rxy by metric (Combined LoF + missense)",
+         subtitle = "Rxy > 1: population X more loaded than Y.  Dashed line = equal load.",
+         x = "Rxy", y = "Population Y") +
+    theme_bw(base_size = 12) +
+    theme(legend.position = "bottom",
+          strip.background = element_rect(fill = "grey92"))
+ggsave(file.path(OUTDIR, "rxy_forest_by_metric.pdf"), p_forest,
+       width = 12, height = 8)
+
+# per population relative load by metric and site class
+geomean <- function(v) { v <- v[is.finite(v) & v > 0]
+    if (!length(v)) NA_real_ else exp(mean(log(v))) }
+
+relload <- all_results[pop_x != pop_y,
+                       .(rel_load = geomean(rxy)),
+                       by = .(pop_x, metric, class)]
+p_rel <- ggplot(relload, aes(reorder(pop_x, rel_load), rel_load, fill = metric)) +
+    geom_hline(yintercept = 1, linetype = "dashed", colour = "grey50") +
+    geom_col(position = position_dodge(0.8), width = 0.75) +
+    coord_flip() +
+    facet_wrap(~class) +
+    scale_fill_manual(values = metric_cols, name = "Metric") +
+    labs(title    = "Relative deleterious load per population, by metric",
+         subtitle = "Geometric mean of Rxy vs all partner populations",
+         x = "Population (X)", y = "Relative load (geomean Rxy)") +
+    theme_bw(base_size = 12) +
+    theme(legend.position = "bottom")
+ggsave(file.path(OUTDIR, "rxy_relative_load_by_metric.pdf"), p_rel,
+       width = 11, height = 5)
+
+# pairwise Rxy heatmaps by metric and site class
+hm <- all_results[is.finite(rxy)]
+hm[, sig := !is.na(ci_lo) & (ci_hi < 1 | ci_lo > 1)]
+hm[, lab := sprintf("%.2f%s", rxy, ifelse(!is.na(sig) & sig, "*", ""))]
+p_hm <- ggplot(hm, aes(pop_y, pop_x, fill = rxy)) +
+    geom_tile(colour = "white", linewidth = 0.4) +
+    geom_text(aes(label = lab), size = 2.4) +
+    facet_grid(metric ~ class) +
+    scale_fill_gradient2(low = "#2166ac", mid = "white", high = "#b2182b",
+                         midpoint = 1, na.value = "grey85", name = "Rxy") +
+    labs(title    = "Pairwise Rxy: metric x site class",
+         subtitle = "Row = numerator X, column = denominator Y.  * = 95% CI excludes 1.",
+         x = "Population Y (denominator)", y = "Population X (numerator)") +
+    theme_minimal(base_size = 11) +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1),
+          panel.grid  = element_blank(),
+          strip.background = element_rect(fill = "grey92"))
+ggsave(file.path(OUTDIR, "rxy_heatmap_grid.pdf"), p_hm,
+       width = 12, height = 10)
+
+# derived allele frequency spectra by metric
+daf_all <- rbindlist(lapply(names(freqs), function(m) {
+    d <- freqs[[m]][, .(DAF, site_class)]
+    d[, metric := m]; d
+}))
+daf_all[, metric := factor(metric, levels = c("imputed", "DS", "GP"),
+                           labels = c("Imputed (hard call)", "Dosage (DS)",
+                                      "Raw posterior (GP)"))]
+p_daf <- ggplot(daf_all, aes(DAF, colour = metric)) +
+    geom_freqpoly(aes(y = after_stat(density)), bins = 30, linewidth = 0.7) +
+    facet_wrap(~site_class, scales = "free_y") +
+    scale_colour_manual(values = metric_cols, name = "Metric") +
+    labs(title = "Derived allele frequency spectra by metric",
+         x = "Derived allele frequency", y = "Density") +
+    theme_bw(base_size = 12) +
+    theme(legend.position = "bottom")
+ggsave(file.path(OUTDIR, "daf_spectra_by_metric.pdf"), p_daf,
+       width = 11, height = 4)
+
+# concordance summary per metric pair
+conc_summary <- conc[, .(
+    n          = .N,
+    pearson_r  = cor(x, y, use = "complete.obs"),
+    mean_absdiff = mean(abs(x - y), na.rm = TRUE)
+), by = comparison]
+fwrite(conc_summary, file.path(OUTDIR, "rxy_concordance_summary.csv"))
+cat("\nConcordance between metrics (off-diagonal Rxy):\n")
+print(conc_summary)
+
+cat("\nWrote results and figures to:\n  ", OUTDIR, "\n")
+
+
+
+---------------FIGURE S11------------------------------------------------------
+
+setwd("~/TD")
+library("ggplot2") # R version 4.6.1 and ggplot2_4.0.3
+library(dplyr) # dplyr_1.2.1
+
+#density plots 
+
+# read data into a data.frame
+df <- read.table("LR.TD.txt", header =TRUE)
+
+png(file="LR.TD.png", width = 3550, height = 2000, res = 600)
+
+# Subset the data to include only relevant columns
+df_subset <- df[, c('index', 'LR2001', 'LR2018')]
+melted_df <- reshape2::melt(df_subset, id.vars = c('index'))
+
+# Calculate mean values for each population
+mean_values <- aggregate(value ~ variable, data = melted_df, mean)
+
+# Create a probability density plot with mean lines
+ggplot(melted_df, aes(x = value, fill = variable)) +
+  geom_density(alpha = 0.7) +
+  geom_vline(data = mean_values, aes(xintercept = value, color = variable), linetype = "dashed", size = 0.8, show.legend = FALSE) +
+  geom_text(data = mean_values, aes(x = value, y = Inf, label = round(value, 2), color = variable),
+            vjust = -1.5, hjust = 0, show.legend = FALSE) + 
+  labs(title = "Tajima's D of Lost River",
+       x = "Tajima's D",
+       y = "Density",
+       fill = "Population",
+       color = "Population") +
+  scale_fill_manual(values = c("LR2001" = "darkgray", "LR2018" = "black")) +
+  scale_color_manual(values = c("LR2001" = "darkgray", "LR2018" = "black")) +
+  theme_minimal() +
+  theme(panel.grid = element_blank(), axis.text = element_text(size = 12),    
+        axis.line = element_line(size = 0.5, color = "black"),  
+        axis.ticks = element_line(size = 0.5, color = "black"))+
+  scale_y_continuous(expand = c(0, 0)) 
+dev.off()
+
+### SC
+
+df <- read.table("SC.TD.txt", header =TRUE)
+
+png(file="SC.TD.png", width = 3550, height = 2000, res = 600)
+
+# Subset the data to include only relevant columns
+df_subset <- df[, c('index', 'SC2001', 'SC2017')]
+melted_df <- reshape2::melt(df_subset, id.vars = c('index'))
+
+# Calculate mean values for each population
+mean_values <- aggregate(value ~ variable, data = melted_df, mean)
+
+ggplot(melted_df, aes(x = value, fill = variable)) +
+  geom_density(alpha = 0.7) +
+  geom_vline(data = mean_values, aes(xintercept = value, color = variable), linetype = "dashed", size = 0.8, show.legend = FALSE) +
+  geom_text(data = mean_values, aes(x = value, y = Inf, label = round(value, 2), color = variable),
+            vjust = -1.5, hjust = 0, show.legend = FALSE) + 
+  labs(title = "Tajima's D of Salt Creek",
+       x = "Tajima's D",
+       y = "Density",
+       fill = "Population",
+       color = "Population") +
+  scale_fill_manual(values = c("SC2001" = "lightgreen", "SC2017" = "darkgreen")) +
+  scale_color_manual(values = c("SC2001" = "lightgreen", "SC2017" = "darkgreen")) +
+  theme_minimal() +
+  theme(panel.grid = element_blank(), axis.text = element_text(size = 12),     
+        axis.line = element_line(size = 0.5, color = "black"),     
+        axis.ticks = element_line(size = 0.5, color = "black"))+
+  scale_y_continuous(expand = c(0, 0)) 
+# Remove background grid lines)  
+dev.off()
+
+### MS
+df <- read.table("MS.TD.txt", header =TRUE)
+
+png(file="MS.TD.png", width = 3550, height = 2000, res = 600)
+
+df_subset <- df[, c('index', 'MS2001', 'MS2019')]
+melted_df <- reshape2::melt(df_subset, id.vars = c('index'))
+
+# Calculate mean values for each population
+mean_values <- aggregate(value ~ variable, data = melted_df, mean)
+
+ggplot(melted_df, aes(x = value, fill = variable)) +
+  geom_density(alpha = 0.7) +
+  geom_vline(data = mean_values, aes(xintercept = value, color = variable), linetype = "dashed", size = 0.8, show.legend = FALSE) +
+  geom_text(data = mean_values, aes(x = value, y = Inf, label = round(value, 2), color = variable),
+            vjust = -1.5, hjust = 0, show.legend = FALSE) + 
+  labs(title = "Tajima's D of Malpais",
+       x = "Tajima's D",
+       y = "Density",
+       fill = "Population",
+       color = "Population") +
+  scale_fill_manual(values = c("MS2001" = "cadetblue3", "MS2019" = "blue")) +
+  scale_color_manual(values = c("MS2001" = "cadetblue3", "MS2019" = "blue")) +
+  theme_minimal() +
+  theme(panel.grid = element_blank(), axis.text = element_text(size = 12),     
+        axis.line = element_line(size = 0.5, color = "black"),     
+        axis.ticks = element_line(size = 0.5, color = "black"))+
+  scale_y_continuous(expand = c(0, 0)) 
+
+dev.off()
+
+
+
+---------------FIGURE S12------------------------------------------------------
+
+setwd("~/selection_scans")
+library("ggplot2") # R version 4.6.1 and ggplot2_4.0.3
+
+
+########### Malpais
+windowed_fst <- read.table("MS_temporal.windowed.weir.fst.edit", sep="\t", header=TRUE)
+str(windowed_fst)
+
+quantile(windowed_fst$WEIGHTED_FST, probs = c(.95, .99, .999))
+ggplot(windowed_fst, aes(x=X1, y=WEIGHTED_FST)) + 
+  geom_point() + 
+  theme_classic() +
+  geom_hline(yintercept=0.14997965 , linetype="dashed", color = "red")
+
+
+png(file="Malpais.png", width = 3550, height = 2200, res = 600)
+par(cex.axis = 0.7)  # Adjust the size of the x-axis labels
+plot(windowed_fst$WEIGHTED_FST, 
+     ylab = expression(italic(Fst)["MS2001-MS2019"]),
+     xlab = expression("Window" ~ italic(("size=50kb, step=10kb"))),
+     xaxt = 'n',
+     cex.lab = 0.8,
+     cex = 0.4,
+     pch = 16,
+     ylim = c(0, 0.3),
+     col = "black")
+abline(h = 0.14997965, lty = 2, col = "red", lwd = 1)
+dev.off()
+
+
+############## SC
+
+windowed_fst <- read.table("SC_temporal.windowed.weir.fst.edit", sep="\t", header=TRUE)
+str(windowed_fst)
+quantile(windowed_fst$WEIGHTED_FST, probs = c(.95, .99, .999))
+
+png(file="Salt Creek.png", width = 3550, height = 2200, res = 600)
+par(cex.axis = 0.7)  # Adjust the size of the x-axis labels
+plot(windowed_fst$WEIGHTED_FST, 
+     ylab = expression(italic(Fst)["SC2001-SC2017"]),
+     xlab = expression("Window" ~ italic(("size=50kb, step=10kb"))),
+     xaxt = 'n',
+     cex.lab = 0.8,
+     cex = 0.4,
+     pch = 16,
+     ylim = c(0, 0.3),
+     col = "black")
+abline(h = 0.2114558 , lty = 2, col = "red", lwd = 1)
+dev.off()
+
+########### LR
+windowed_fst <- read.table("LR_temporal.windowed.weir.fst.edit", sep="\t", header=TRUE)
+str(windowed_fst)
+quantile(windowed_fst$WEIGHTED_FST, probs = c(.95, .99, .999))
+
+png(file="Lost Eiver.png", width = 3550, height = 2200, res = 600)
+par(cex.axis = 0.7)  # Adjust the size of the x-axis labels
+plot(windowed_fst$WEIGHTED_FST, 
+     ylab = expression(italic(Fst)["LR2001-LR2018"]),
+     xlab = expression("Window" ~ italic(("size=50kb, step=10kb"))),
+     xaxt = 'n',
+     cex.lab = 0.8,
+     cex = 0.4,
+     pch = 16,
+     ylim = c(0, 0.4),
+     col = "black")
+abline(h = 0.2715351, lty = 2, col = "red", lwd = 1)
+dev.off()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
