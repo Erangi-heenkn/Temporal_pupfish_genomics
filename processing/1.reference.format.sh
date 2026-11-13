@@ -11,13 +11,10 @@
 
 module load bioinfo
 module load bioawk
-module load seqtk
-module load samtools
-module load BEDTools
-module load BBMap
-module load r
-module load bedops
-export PATH=$PATH:~/genmap-build/bin
+module load samtools/1.8
+module load BEDTools/2.30.0
+module load BBMap #BBMap v37.93
+export PATH=$PATH:~/genmap-build/bin #GenMap v1.3.0
 
 
 #Download  repeatmasker out
@@ -48,13 +45,10 @@ samtools faidx ref_100kb.fa
 module --force purge
 module load bioinfo
 module load bioawk
-module load seqtk
-module load samtools
+module load samtools/1.8
 module load cmake/3.9.4
-module load BEDTools
-module load BBMap
-module load R
-module load bedops
+module load BEDTools/2.30.0
+module load BBMap #BBMap v37.93
 export PATH=$PATH:~/genmap-build/bin
 
 ####assess mappability of reference####

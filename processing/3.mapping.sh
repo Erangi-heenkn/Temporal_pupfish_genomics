@@ -11,11 +11,10 @@
 cd $SLURM_SUBMIT_DIR
 module purge
 module load bioinfo
-module load bwa
-module load picard-tools
-module load bedops
+module load bwa #v0.7.17
+module load picard-tools/2.9.0
 module load GATK/3.6.0
-module load samtools
+module load samtools/1.8
 
 
 #Make sample list
@@ -47,11 +46,10 @@ do
 
 module --force purge
 module load bioinfo
-module load bwa
-module load picard-tools
-module load bedops
+module load bwa #v0.7.17
+module load picard-tools/2.9.0
 module load GATK/3.6.0
-module load samtools
+module load samtools/1.8
 
 
 #Move to the paired-end fastq containing folder

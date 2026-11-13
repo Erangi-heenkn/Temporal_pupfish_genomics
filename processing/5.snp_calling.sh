@@ -9,7 +9,7 @@
 
 module purge
 module load biocontainers
-module load angsd
+module load angsd/0.95
 
 
 REF=/projects/temporal_wsp/ref/ref.fa

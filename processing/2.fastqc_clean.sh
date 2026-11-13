@@ -10,9 +10,9 @@
 
 # Load required bioinformatics modules
 module load bioinfo
-module load samtools
-module load BEDTools
-module load TrimGalore
+module load samtools/1.8
+module load BEDTools/2.30.0
+module load TrimGalore #v0.6.10
 module load biocontainers
 
 # Set working directory
@@ -36,8 +36,8 @@ trim_galore --stringency 1 --length 30 --quality 20 --paired -o ../cleaned/ ./$R
 
 done
 
-#Run fastqc 
+#Run fastqc v0.12.1
 fastqc *fq.gz -o ./fastqc_out
 
 
-###multiqc . -o ./QC
+
