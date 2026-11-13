@@ -10,7 +10,7 @@
 module purge
 module load bioinfo
 #ml htslib
-ml samtools
+ml samtools/1.8
 
 
 cd /projects/temporal_wsp/bams/final_bams/
